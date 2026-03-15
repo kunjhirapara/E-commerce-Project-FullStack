@@ -45,8 +45,6 @@ services:
       - "${PHPMYADMIN_PORT:-8081}:80"
     environment:
       PMA_HOST: db
-      PMA_USER: ${DB_USER:-ecommerce_user}
-      PMA_PASSWORD: ${DB_PASSWORD:-change_me}
 
 volumes:
   db_data:
