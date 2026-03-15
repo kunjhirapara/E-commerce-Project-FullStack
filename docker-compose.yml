@@ -1,0 +1,54 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      BASE_URL: ${BASE_URL:-http://localhost:8080}
+      ADMIN_BASE_URL: ${ADMIN_BASE_URL:-http://localhost:8080/admin}
+      DB_HOST: db
+      DB_USER: ${DB_USER:-ecommerce_user}
+      DB_PASSWORD: ${DB_PASSWORD:-change_me}
+      DB_NAME: ${DB_NAME:-kunj_ecommerce}
+    depends_on:
+      - db
+    volumes:
+      - uploads_data:/var/www/html/assets/images/uploads
+      - user_uploads_data:/var/www/html/assets/images/user-sign-up-uploads
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_change_me}
+      MYSQL_DATABASE: ${DB_NAME:-kunj_ecommerce}
+      MYSQL_USER: ${DB_USER:-ecommerce_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-change_me}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "${PHPMYADMIN_PORT:-8081}:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${DB_USER:-ecommerce_user}
+      PMA_PASSWORD: ${DB_PASSWORD:-change_me}
+
+volumes:
+  db_data:
+  uploads_data:
+  user_uploads_data:

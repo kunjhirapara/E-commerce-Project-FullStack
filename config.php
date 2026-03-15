@@ -10,7 +10,14 @@ $isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1
 // Get the protocol (http or https)
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 
-if ($isLocalhost) {
+// Optional manual URL overrides for containerized deployments
+$envBaseUrl = getenv('BASE_URL');
+$envAdminBaseUrl = getenv('ADMIN_BASE_URL');
+
+if (!empty($envBaseUrl) && !empty($envAdminBaseUrl)) {
+    $Base_Url = rtrim($envBaseUrl, '/');
+    $Admin_Base_Url = rtrim($envAdminBaseUrl, '/');
+} elseif ($isLocalhost) {
     // Local development environment
     $Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/E-commerce-Project-FullStack';
     $Admin_Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/E-commerce-Project-FullStack/admin';
@@ -32,14 +39,14 @@ if ($isLocalhost) {
 }
 
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kunj_ecommerce";
+$servername = getenv('DB_HOST') ?: "localhost";
+$username = getenv('DB_USER') ?: "root";
+$password = getenv('DB_PASSWORD') ?: "";
+$dbname = getenv('DB_NAME') ?: "kunj_ecommerce";
 
 // For production, use different database credentials
 // IMPORTANT: Update these with your actual production database credentials!
-if (!$isLocalhost) {
+if (!$isLocalhost && getenv('DB_HOST') === false) {
     // TODO: Replace these with your actual production database credentials
     $servername = "localhost"; // Usually 'localhost' but check with your hosting provider
     $username = "kunj"; // Your hosting database username
