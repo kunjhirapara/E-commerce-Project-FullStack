@@ -9,16 +9,13 @@ $Base_Url = 'http://' . $_SERVER['SERVER_NAME'] ;
 // Handle file upload
 $imagePath = '';
 if (isset($_FILES["Upload"]) && $_FILES["Upload"]["error"] === UPLOAD_ERR_OK) {
-  $image = $_FILES["Upload"]["name"];
-  $imageName = uniqid('product_') . "_" . basename($image);
-  $target = __DIR__ . "/../../../assets/images/uploads/" . $imageName;
-
-  if (!move_uploaded_file($_FILES["Upload"]["tmp_name"], $target)) {
+  $uploadResult = Security::store_uploaded_image($_FILES["Upload"], __DIR__ . "/../../../assets/images/uploads/", 'product_');
+  if (!$uploadResult['success']) {
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to move uploaded file']);
+    echo json_encode(['error' => $uploadResult['error']]);
     exit();
   }
-  $imagePath = $imageName;
+  $imagePath = $uploadResult['filename'];
 }
 
 // Get POST data

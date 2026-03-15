@@ -299,6 +299,89 @@ class Security {
     public static function validate_email($email) {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
+
+    /**
+     * Validate an uploaded image using server-side MIME detection.
+     *
+     * @param array $file Uploaded file entry from $_FILES
+     * @param int $maxSize Maximum allowed file size in bytes
+     * @return array Validation result
+     */
+    public static function validate_uploaded_image($file, $maxSize = 2097152) {
+        $allowedMimeTypes = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif'
+        ];
+
+        if (!is_array($file) || !isset($file['error'], $file['tmp_name'], $file['size'], $file['name'])) {
+            return ['valid' => false, 'error' => 'No file uploaded or selected.'];
+        }
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            return ['valid' => false, 'error' => 'Upload failed. Please try again.'];
+        }
+
+        if (!is_uploaded_file($file['tmp_name'])) {
+            return ['valid' => false, 'error' => 'Invalid upload source.'];
+        }
+
+        if ($file['size'] <= 0 || $file['size'] > $maxSize) {
+            return ['valid' => false, 'error' => 'File too large. File must be less than 2 megabytes.'];
+        }
+
+        $imageInfo = @getimagesize($file['tmp_name']);
+        if ($imageInfo === false) {
+            return ['valid' => false, 'error' => 'Uploaded file is not a valid image.'];
+        }
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->file($file['tmp_name']);
+        if ($mimeType === false || !isset($allowedMimeTypes[$mimeType])) {
+            return ['valid' => false, 'error' => 'Invalid file type. Only JPG, GIF and PNG types are accepted.'];
+        }
+
+        return [
+            'valid' => true,
+            'mime' => $mimeType,
+            'extension' => $allowedMimeTypes[$mimeType]
+        ];
+    }
+
+    /**
+     * Move a validated uploaded image into the destination directory.
+     *
+     * @param array $file Uploaded file entry from $_FILES
+     * @param string $uploadDir Destination directory
+     * @param string $prefix Filename prefix
+     * @return array Storage result
+     */
+    public static function store_uploaded_image($file, $uploadDir, $prefix = 'upload_') {
+        $validation = self::validate_uploaded_image($file);
+        if (!$validation['valid']) {
+            return ['success' => false, 'error' => $validation['error']];
+        }
+
+        if (!is_dir($uploadDir) && !mkdir($uploadDir, 0755, true) && !is_dir($uploadDir)) {
+            return ['success' => false, 'error' => 'Failed to create upload directory.'];
+        }
+
+        $baseName = pathinfo($file['name'], PATHINFO_FILENAME);
+        $safeBaseName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $baseName);
+        $safeBaseName = trim($safeBaseName, '_');
+        if ($safeBaseName === '') {
+            $safeBaseName = 'image';
+        }
+
+        $fileName = uniqid($prefix, true) . '_' . $safeBaseName . '.' . $validation['extension'];
+        $destination = rtrim($uploadDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $fileName;
+
+        if (!move_uploaded_file($file['tmp_name'], $destination)) {
+            return ['success' => false, 'error' => 'Failed to move uploaded file. Check folder permissions.'];
+        }
+
+        return ['success' => true, 'filename' => $fileName];
+    }
     
     /**
      * Rate limiting helper

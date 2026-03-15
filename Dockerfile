@@ -11,5 +11,12 @@ RUN apt-get update \
 
 WORKDIR /var/www/html
 COPY . /var/www/html
+COPY docker/apache/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-RUN chown -R www-data:www-data /var/www/html/assets/images/uploads /var/www/html/assets/images/user-sign-up-uploads
+RUN chown -R www-data:www-data \
+    /var/www/html/assets/images/uploads \
+    /var/www/html/assets/images/user-sign-up-uploads \
+    /var/www/html/admin/assets/images/admin-sign-up-uploads \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]

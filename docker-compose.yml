@@ -7,8 +7,9 @@ services:
     ports:
       - "${APP_PORT:-8080}:80"
     environment:
-      BASE_URL: ${BASE_URL:-http://localhost:8080}
-      ADMIN_BASE_URL: ${ADMIN_BASE_URL:-http://localhost:8080/admin}
+      BASE_URL: ${BASE_URL:-http://kunjdeveloper.me/projects/Ecommerce_Fullstack}
+      ADMIN_BASE_URL: ${ADMIN_BASE_URL:-http://kunjdeveloper.me/projects/Ecommerce_Fullstack/admin}
+      APP_BASE_PATH: ${APP_BASE_PATH:-/projects/Ecommerce_Fullstack}
       DB_HOST: db
       DB_USER: ${DB_USER:-ecommerce_user}
       DB_PASSWORD: ${DB_PASSWORD:-change_me}
@@ -18,6 +19,7 @@ services:
     volumes:
       - uploads_data:/var/www/html/assets/images/uploads
       - user_uploads_data:/var/www/html/assets/images/user-sign-up-uploads
+      - admin_uploads_data:/var/www/html/admin/assets/images/admin-sign-up-uploads
 
   db:
     image: mysql:8.0
@@ -42,7 +44,7 @@ services:
     depends_on:
       - db
     ports:
-      - "${PHPMYADMIN_PORT:-8081}:80"
+      - "${PHPMYADMIN_PORT:-8091}:80"
     environment:
       PMA_HOST: db
 
@@ -50,3 +52,4 @@ volumes:
   db_data:
   uploads_data:
   user_uploads_data:
+  admin_uploads_data:

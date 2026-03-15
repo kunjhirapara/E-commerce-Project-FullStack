@@ -55,42 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $UploadErr = [];
 
-    $maxsize = 2 * 1024 * 1024; 
-    $acceptable = ['image/jpeg', 'image/gif', 'image/png'];
-
     if (isset($_FILES['Upload'])) {
       if( $emailErr === "" && $passwordErr === "" && $userNameErr === ""){
-        $fileSize = $_FILES['Upload']['size'];
-        $fileType = $_FILES['Upload']['type'];
-        $tmpName = $_FILES['Upload']['tmp_name'];
-        
-        if ($fileSize == 0 || $fileSize > $maxsize) {
-          $UploadErr[] = 'File too large. File must be less than 2 megabytes.';
-        }
-        
-        if (!in_array($fileType, $acceptable)) {
-          $UploadErr[] = 'Invalid file type. Only JPG, GIF and PNG types are accepted.';
-        }
-        
-        if (count($UploadErr) === 0) {
-          $uploadDir = __DIR__ . '/assets/images/user-sign-up-uploads/';
-          if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-          }
-          $fileName = preg_replace("/[^a-zA-Z0-9\._-]/", "_", basename($_FILES['Upload']['name']));
-          $uniqueFileName = uniqid() . '-' . $fileName;
-          $destination = $uploadDir . $uniqueFileName;
-          
-          if (move_uploaded_file($tmpName, $destination)) {
-            $Upload =  $uniqueFileName;
-          } else {
-          if (!move_uploaded_file($tmpName, $destination)) {
-              $UploadErr[] = 'Failed to move uploaded file. Check folder permissions.';
-              $UploadErr[] = error_get_last()['message'] ?? '';
-          }
-          error_log("Upload failed to $destination");
-
-          }
+        $uploadResult = Security::store_uploaded_image($_FILES['Upload'], __DIR__ . '/assets/images/user-sign-up-uploads/', 'user_');
+        if ($uploadResult['success']) {
+          $Upload = $uploadResult['filename'];
+        } else {
+          $UploadErr[] = $uploadResult['error'];
         }
       }else{
         $UploadErr[] = 'It seems tha the fields above are not correct.';
