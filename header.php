@@ -1,7 +1,11 @@
-<?php 
-include 'main-header.php';
+<?php
 require_once __DIR__ . '/includes/security.php';
 Security::init_secure_session('USER_SESSION');
+include 'main-header.php';
+
+$userName = 'User';
+$userImage = '';
+$userEmail = '';
 ?>
 <script>
 const IS_LOGGED_IN = <?= isset($_SESSION['email']) ? 'true' : 'false' ?>;
@@ -10,17 +14,37 @@ const IS_LOGGED_IN = <?= isset($_SESSION['email']) ? 'true' : 'false' ?>;
 if (isset($_SESSION['email'])) {
   $userEmail = $_SESSION['email'];
 }
-if (isset($_SESSION['last_signin_time']) && (time() - $_SESSION['last_signin_time']) > 1800) {
+if (isset($_SESSION ['last_signin_time']) && (time() - $_SESSION['last_signin_time']) > 1800) {
   header("Location:signout.php");
   exit();
 }
 $_SESSION['last_signin_time'] = time();
-$stmt = $conn->prepare("SELECT username, user_img FROM user_sign_in WHERE email = ?");
-$stmt->bind_param("s", $userEmail);
-$stmt->execute();
-$stmt->bind_result($userName, $userImage);
-$stmt->fetch();
-$stmt->close();
+
+if (!empty($userEmail)) {
+  try {
+    $stmt = $conn->prepare("SELECT username, user_img FROM user_sign_in WHERE email = ?");
+    if ($stmt) {
+      $stmt->bind_param("s", $userEmail);
+      $stmt->execute();
+      $stmt->bind_result($dbUserName, $dbUserImage);
+      if ($stmt->fetch()) {
+        if (!empty($dbUserName)) {
+          $userName = $dbUserName;
+        }
+        if (!empty($dbUserImage)) {
+          $userImage = $dbUserImage;
+        }
+      }
+      $stmt->close();
+    }
+  } catch (Throwable $e) {
+    // Keep page functional during initial deployment before DB import/migration.
+  }
+}
+
+$profileImageUrl = !empty($userImage)
+  ? $Base_Url . '/assets/images/user-sign-up-uploads/' . $userImage
+  : $Base_Url . '/assets/images/icons/vite.svg';
 ?>
 <header class="section-navbar">
   <section class="top_txt">
@@ -46,13 +70,13 @@ $stmt->close();
         <div class="d-flex justify-content-end align-items-center z-1">
           <div class="dropdown" id="profileDropdown">
             <a href="#" class="d-flex align-items-center text-decoration-none" id="profileToggle">
-              <img src="' . $Base_Url . '/assets/images/user-sign-up-uploads/' . $userImage . '" alt="avatar" width="40"
+              <img src="' . $profileImageUrl . '" alt="avatar" width="40"
                 height="40" class="rounded-circle">
             </a>
             <ul class="dropdown-menu shadow mt-2">
               <li class="px-3 py-2">
                 <div class="d-flex align-items-center">
-                  <img src="' . $Base_Url . '/assets/images/user-sign-up-uploads/' . $userImage . '" alt="avatar"
+                  <img src="' . $profileImageUrl . '" alt="avatar"
                     width="50" height="50" class="rounded-circle me-2">
                   <div class="d-flex flex-column">
                     <strong>' . $userName . '</strong>

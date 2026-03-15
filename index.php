@@ -1,13 +1,15 @@
 <?php
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
+
 if (isset($_SESSION['last_signin_time']) && (time() - $_SESSION['last_signin_time']) > 10000) {
     header("Location:signout.php");
     exit();
 }
 
 $_SESSION['last_signin_time'] = time();
+include 'header.php';
 ?>
-
-<?php include 'header.php';?>
 <main>
   <section class="home-first-section position-relative">
     <div class="container">

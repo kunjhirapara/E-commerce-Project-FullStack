@@ -253,6 +253,10 @@ class Security {
      * Adds modern security headers to responses
      */
     public static function set_security_headers() {
+        if (headers_sent()) {
+            return;
+        }
+
         // Prevent clickjacking
         header('X-Frame-Options: SAMEORIGIN');
         
