@@ -167,7 +167,5 @@ $stmt->close();
     </div>
   </div>
 </section>
-
-
-<?php include '../main-footer.php' ?>
 <script type="module" src="<?php echo $Admin_Base_Url; ?>/assets/js/adminFilterProductListing.js"></script>
+<?php include 'main-footer.php' ?>
