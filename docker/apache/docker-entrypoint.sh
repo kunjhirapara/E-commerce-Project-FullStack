@@ -17,6 +17,15 @@ done
 APP_BASE_PATH="${APP_BASE_PATH:-}"
 APP_BASE_PATH="$(printf '%s' "$APP_BASE_PATH" | sed 's#/*$##')"
 
+# If APP_BASE_PATH is not explicitly set, infer it from BASE_URL.
+# Example: BASE_URL=https://host/projects/Ecommerce -> /projects/Ecommerce
+if [ -z "$APP_BASE_PATH" ] && [ -n "${BASE_URL:-}" ]; then
+    inferred_path="$(printf '%s' "$BASE_URL" | sed -E 's#^[a-zA-Z]+://[^/]+##' | sed 's#/*$##')"
+    if [ -n "$inferred_path" ] && [ "$inferred_path" != "${BASE_URL}" ]; then
+        APP_BASE_PATH="$inferred_path"
+    fi
+fi
+
 if [ -n "$APP_BASE_PATH" ] && [ "${APP_BASE_PATH#/}" = "$APP_BASE_PATH" ]; then
     APP_BASE_PATH="/$APP_BASE_PATH"
 fi
