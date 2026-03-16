@@ -22,15 +22,13 @@ if (!empty($envBaseUrl) && !empty($envAdminBaseUrl)) {
     $Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/E-commerce-Project-FullStack';
     $Admin_Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/E-commerce-Project-FullStack/admin';
 } else {
-    // Production server environment
-    // Option 1: Site is in root directory (ACTIVE for projectstore.kunjdeveloper.me)
-    $Base_Url = $protocol . $_SERVER['SERVER_NAME'];
-    $Admin_Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/admin';
-    
-    // Option 2: If the site is in a subdirectory (DISABLED)
-    // Modify 'E-commerce-Project-FullStack' to match your actual directory name on the server
-    // $Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/E-commerce-Project-FullStack';
-    // $Admin_Base_Url = $protocol . $_SERVER['SERVER_NAME'] . '/E-commerce-Project-FullStack/admin';
+    // Production / Docker environment
+    // Construct base URL including port when non-standard (e.g. Docker on :8080)
+    $port = $_SERVER['SERVER_PORT'];
+    $includePort = ($protocol === 'https://' && $port != 443) || ($protocol === 'http://' && $port != 80);
+    $hostWithPort = $_SERVER['SERVER_NAME'] . ($includePort ? ':' . $port : '');
+    $Base_Url = $protocol . $hostWithPort;
+    $Admin_Base_Url = $protocol . $hostWithPort . '/admin';
     
     // Option 3: Custom domain/path - Manually specify your production URLs (DISABLED)
     // Uncomment and modify these lines if you need specific URLs
