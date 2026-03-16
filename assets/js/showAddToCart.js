@@ -57,7 +57,7 @@ export async function showCartProduct() {
     id = Number(id);
     const filterProductClone = document.importNode(
       productCartTemplate.content,
-      true
+      true,
     );
 
     const cartProductItems = cartProducts.find((elem) => elem.id === id);
@@ -67,7 +67,7 @@ export async function showCartProduct() {
     const filterQuantitySelector =
       filterProductClone.querySelector(".quantity-selector");
     const cloneRemoveBtn = filterProductClone.querySelector(
-      ".remove-to-cart-button"
+      ".remove-to-cart-button",
     );
     filterProductClone
       .querySelector("#cart-card-value")
@@ -83,9 +83,8 @@ export async function showCartProduct() {
     if (filterProductQuantity) {
       filterProductQuantity.textContent = cartProductItems.productQuantity;
     }
-    filterProductClone.querySelector(
-      ".product-img"
-    ).src = `${baseUrl}/assets/images/uploads/${image}`;
+    filterProductClone.querySelector(".product-img").src =
+      `${baseUrl}/assets/images/uploads/${image}`;
 
     if (filterQuantitySelector) {
       filterQuantitySelector.addEventListener("click", (event) => {
@@ -107,7 +106,7 @@ export async function showCartProduct() {
           window.location.href = "product.php";
         }
         const updatedCart = cartProducts.filter(
-          (currentElem) => currentElem.id !== id
+          (currentElem) => currentElem.id !== id,
         );
         let removeDiv = document.querySelector(`#card-${id}`);
         console.log(removeDiv);

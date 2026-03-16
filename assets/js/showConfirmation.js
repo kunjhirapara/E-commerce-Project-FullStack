@@ -27,7 +27,7 @@ const showCartProduct = async (cartProducts) => {
   orderNo.textContent = cartProducts[0].order_id;
 
   let filterProducts = products.filter((product) =>
-    cartProducts.some((cartItem) => cartItem.product_id === product.id)
+    cartProducts.some((cartItem) => cartItem.product_id === product.id),
   );
 
   productCartTableBody.innerHTML = "";
@@ -52,7 +52,9 @@ const showCartProduct = async (cartProducts) => {
 
 async function main() {
   try {
-    const response = await fetch(`${baseUrl}/assets/api/getCheckoutProductId.php`);
+    const response = await fetch(
+      `${baseUrl}/assets/api/getCheckoutProductId.php`,
+    );
     if (!response.ok) throw new Error("Failed to fetch cart products");
     const cartProducts = await response.json();
 
@@ -98,7 +100,7 @@ async function main() {
       <div class="d-flex justify-content-between">
         <p>Discount:</p>
         <p class="product-coupon text-success">- $${couponDiscountAmount.toFixed(
-          2
+          2,
         )} (${coupon.discount_value} OFF)</p>
       </div>
     `;

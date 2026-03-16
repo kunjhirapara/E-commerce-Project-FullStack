@@ -1,4 +1,4 @@
-import {clearCartElements, showCartProduct} from "./showAddToCart.js";
+import { clearCartElements, showCartProduct } from "./showAddToCart.js";
 
 $(document).ready(function () {
   $("#sameAddress").on("change", function () {
@@ -18,7 +18,7 @@ $(document).ready(function () {
         /^[a-zA-Z0-9\s.,'#\-\/()]+$/.test(value.trim())
       );
     },
-    "Only alphabets, digits and some special characters are allowed."
+    "Only alphabets, digits and some special characters are allowed.",
   );
 
   $.validator.addMethod(
@@ -26,7 +26,7 @@ $(document).ready(function () {
     function (value) {
       return value !== "Select one" && value !== "";
     },
-    "Please select a valid option."
+    "Please select a valid option.",
   );
 
   $("#submitUserDetails").click(function () {
@@ -37,7 +37,7 @@ $(document).ready(function () {
     $(this).find('input[name="cart"]').remove();
 
     const cartProducts = JSON.parse(
-      localStorage.getItem("cartProducts") || "[]"
+      localStorage.getItem("cartProducts") || "[]",
     );
 
     $("<input>")
