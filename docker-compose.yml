@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   web:
     build:
@@ -7,9 +9,9 @@ services:
     ports:
       - "${APP_PORT:-8080}:80"
     environment:
-      BASE_URL: ${BASE_URL:-}
-      ADMIN_BASE_URL: ${ADMIN_BASE_URL:-}
-      APP_BASE_PATH: ${APP_BASE_PATH:-}
+      BASE_URL: ${BASE_URL}
+      ADMIN_BASE_URL: ${ADMIN_BASE_URL}
+      APP_BASE_PATH: ${APP_BASE_PATH}
       DB_HOST: db
       DB_USER: ${DB_USER:-ecommerce_user}
       DB_PASSWORD: ${DB_PASSWORD:-change_me}
