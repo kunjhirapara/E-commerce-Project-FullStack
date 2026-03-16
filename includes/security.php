@@ -14,6 +14,29 @@
  */
 
 class Security {
+
+    /**
+     * Build a safe cookie domain value.
+     * Returns empty string for localhost/IP hosts so PHP uses host-only cookies.
+     *
+     * @return string
+     */
+    private static function get_cookie_domain() {
+        $host = $_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'] ?? '');
+        if ($host === '') {
+            return '';
+        }
+
+        // Remove port if present (e.g. localhost:8080).
+        $host = preg_replace('/:\\d+$/', '', $host);
+
+        // Host-only cookie for localhost and IPs.
+        if ($host === 'localhost' || filter_var($host, FILTER_VALIDATE_IP)) {
+            return '';
+        }
+
+        return $host;
+    }
     
     /**
      * Initialize secure session configuration
@@ -25,12 +48,15 @@ class Security {
     public static function init_secure_session($session_name = 'SECURE_SESS', $regenerate_id = false) {
         // Session configuration before session_start()
         if (session_status() === PHP_SESSION_NONE) {
+            $cookieDomain = self::get_cookie_domain();
+            $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['SERVER_PORT'] ?? null) == 443);
+
             // Secure session cookie parameters
             session_set_cookie_params([
                 'lifetime' => 0,                    // Session cookie (until browser close)
                 'path' => '/',
-                'domain' => $_SERVER['HTTP_HOST'] ?? '',
-                'secure' => isset($_SERVER['HTTPS']), // Only send over HTTPS if available
+                'domain' => $cookieDomain,
+                'secure' => $isHttps,              // Only send over HTTPS
                 'httponly' => true,                 // Prevent JavaScript access
                 'samesite' => 'Strict'              // CSRF protection
             ]);
