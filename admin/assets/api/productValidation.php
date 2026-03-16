@@ -4,8 +4,6 @@ require_once __DIR__ . '/../../../includes/security.php';
 Security::init_secure_session('ADMIN_SESSION');
 header('Content-Type: application/json');
 
-$Base_Url = 'http://' . $_SERVER['SERVER_NAME'] ;
-
 // Handle file upload
 $imagePath = '';
 if (isset($_FILES["Upload"]) && $_FILES["Upload"]["error"] === UPLOAD_ERR_OK) {
