@@ -351,7 +351,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="auth-body">
-      <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+      <form method="post" action="">
         <div class="form-floating-custom">
           <input type="email" name="email" id="email" placeholder=" " autocomplete="email" required
             value="<?php echo htmlspecialchars($email); ?>">

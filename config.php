@@ -8,8 +8,11 @@
 $serverName = $_SERVER['SERVER_NAME'] ?? 'localhost';
 $isLocalhost = in_array($serverName, ['localhost', '127.0.0.1', '::1']);
 
-// Get the protocol (http or https)
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? "https://" : "http://";
+// Get the protocol (http or https) — also check X-Forwarded-Proto for reverse proxy setups
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
+    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'))
+    ? "https://" : "http://";
 
 // Build host (include non-standard ports only)
 $port = $_SERVER['SERVER_PORT'] ?? null;

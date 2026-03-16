@@ -299,7 +299,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $validToken) {
     <?php else: ?>
     <div class="auth-body">
       <form method="post"
-        action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?token=' . urlencode($token); ?>">
+        action="?token=<?php echo urlencode($token); ?>">
         <div class="form-floating-custom">
           <input type="password" name="password" id="password" placeholder=" " autocomplete="new-password" required>
           <label for="password">New Admin Password</label>
