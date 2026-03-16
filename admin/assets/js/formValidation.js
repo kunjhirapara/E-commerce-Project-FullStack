@@ -151,7 +151,11 @@ $(document).ready(function () {
             showCartProduct();
             form.reset();
 
-            $.post("/.${baseUrl}/assets/api/getCheckoutProductId.php", {
+            const appBasePath = window.location.pathname.includes("/admin/")
+              ? window.location.pathname.split("/admin/")[0]
+              : "";
+
+            $.post(`${appBasePath}/assets/api/getCheckoutProductId.php`, {
               orderId: response.orderId,
             })
               .done(function () {

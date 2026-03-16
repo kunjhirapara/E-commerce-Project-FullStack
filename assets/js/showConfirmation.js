@@ -52,7 +52,7 @@ const showCartProduct = async (cartProducts) => {
 
 async function main() {
   try {
-    const response = await fetch("/assets/api/getCheckoutProductId.php");
+    const response = await fetch(`${baseUrl}/assets/api/getCheckoutProductId.php`);
     if (!response.ok) throw new Error("Failed to fetch cart products");
     const cartProducts = await response.json();
 

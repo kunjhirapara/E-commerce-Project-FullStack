@@ -32,7 +32,7 @@ export function clearCartElements() {
 
 export async function showCartProduct() {
   let products = [];
-  const res = await fetch("/E-commerce-Project-FullStack/assets/api/api.php");
+  const res = await fetch(`${baseUrl}/assets/api/api.php`);
   products = await res.json();
 
   if (cartProducts.length === 0 && addToCartElement) {
