@@ -74,8 +74,8 @@ if (!empty($envBaseUrl) || !empty($envAdminBaseUrl)) {
 } else {
     // Production / Docker environment
     // Keep the deployment subdirectory if present (e.g. /projects/Ecommerce).
-    $Base_Url = $protocol . $hostWithPort . $projectPath;
-    $Admin_Base_Url = $Base_Url . '/admin';
+    $Base_Url = $protocol . $hostWithPort . $projectPath. '/projects/Ecommerce';
+    $Admin_Base_Url = $Base_Url . '/projects/Ecommerce/admin';
 }
 
 // Database configuration
