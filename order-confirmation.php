@@ -1,6 +1,7 @@
 <?php
-ob_start();
-include "header.php";
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
+include './conn.php';
 unset($_SESSION['applied_coupon']);
 if (!isset($_SESSION['orderId']) && !isset($_SESSION['email'])) {
   header("Location: index.php");
@@ -10,10 +11,15 @@ if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], "checko
   header("Location: index.php");
   exit;
 }
-ob_end_flush();
+include "header.php";
 
 
 $orderId = $_SESSION['orderId'];
+
+$deliveryAddress = '';
+$customerName = '';
+$paymentType = '';
+$orderTime = '';
 
 $stmt = $conn->prepare("SELECT delivery_address, username, payment_type, created_at FROM orders WHERE id = ?");
 $stmt->bind_param("s", $orderId);
@@ -22,8 +28,9 @@ $stmt->bind_result($deliveryAddress, $customerName, $paymentType, $orderTime);
 $stmt->fetch();
 $stmt->close();
 $conn->close();
-$dateOnly = date("d-m-Y", strtotime($orderTime));
-$timeOnly = date("H:i:s", strtotime($orderTime));
+$orderTime = (string)($orderTime ?? '');
+$dateOnly = $orderTime !== '' ? date("d-m-Y", strtotime($orderTime)) : '';
+$timeOnly = $orderTime !== '' ? date("H:i:s", strtotime($orderTime)) : '';
 ?>
 
 <div class="container mt-5 pt-5">

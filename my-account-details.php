@@ -1,10 +1,12 @@
 <?php
-include 'header.php';
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
 include './conn.php';
 if (!isset($_SESSION['email'])) {
   header("Location: signin.php");
   exit();
 }
+include 'header.php';
 $userEmail = $_SESSION['email'];
 
 $stmt = $conn->prepare("SELECT username, contact_number, email , user_img, payment_type FROM user_sign_in WHERE email = ?");

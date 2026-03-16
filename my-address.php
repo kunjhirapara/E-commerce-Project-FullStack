@@ -1,11 +1,20 @@
 <?php
-include 'header.php';
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
 include './conn.php';
 if (!isset($_SESSION['email'])) {
   header("Location: signin.php");
   exit();
 }
+include 'header.php';
 $userEmail = $_SESSION['email'];
+
+$userName = '';
+$deliveryAddress = '';
+$billingAddress = '';
+$city = '';
+$stateName = '';
+$zipCode = '';
 
 $stmt = $conn->prepare("SELECT username, delivery_address, billing_address, city, state_name, zip_code
  FROM user_sign_in WHERE email = ?");
@@ -14,6 +23,12 @@ $stmt->execute();
 $stmt->bind_result($userName, $deliveryAddress, $billingAddress, $city, $stateName, $zipCode);
 $stmt->fetch();
 $stmt->close();
+
+$deliveryAddress = (string)($deliveryAddress ?? '');
+$billingAddress = (string)($billingAddress ?? '');
+$city = (string)($city ?? '');
+$stateName = (string)($stateName ?? '');
+$zipCode = (string)($zipCode ?? '');
 ?>
 <script type="module" src="./assets/js/cartValue.js"></script>
 

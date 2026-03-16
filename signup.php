@@ -1,6 +1,7 @@
 <?php 
 // Include security helper
 require_once 'includes/security.php';
+require_once __DIR__ . '/config.php';
 
 // Initialize secure session
 Security::init_secure_session('USER_SESSION');
@@ -14,9 +15,7 @@ Security::init_secure_session('USER_SESSION');
       exit();
     }
   }
-  
-  include 'main-header.php' ?>
-<?php
+
 
 $email = $password = $userName = $Upload = $emailErr = $passwordErr = $userNameErr = $UploadErr ="";
 
@@ -102,6 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->close();
 }
+
+  include 'main-header.php';
 ?>
 
 

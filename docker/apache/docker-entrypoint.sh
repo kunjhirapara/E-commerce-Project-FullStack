@@ -1,6 +1,19 @@
 #!/bin/sh
 set -eu
 
+# Ensure runtime-mounted upload directories are writable by Apache.
+UPLOAD_DIRS="
+/var/www/html/assets/images/uploads
+/var/www/html/assets/images/user-sign-up-uploads
+/var/www/html/admin/assets/images/admin-sign-up-uploads
+"
+
+for dir in $UPLOAD_DIRS; do
+    mkdir -p "$dir"
+    chown -R www-data:www-data "$dir"
+    chmod -R 775 "$dir"
+done
+
 APP_BASE_PATH="${APP_BASE_PATH:-}"
 APP_BASE_PATH="$(printf '%s' "$APP_BASE_PATH" | sed 's#/*$##')"
 

@@ -1,7 +1,6 @@
 <?php
-ob_start();
-include 'header.php';
-
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
 include './conn.php';
 if (!isset($_SESSION['email'])) {
   header("Location: signin.php");
@@ -13,6 +12,8 @@ if (isset($_SESSION['last_signin_time']) && (time() - $_SESSION['last_signin_tim
   exit();
 }
 
+include 'header.php';
+
 $stmt = $conn->prepare("SELECT username, contact_number, delivery_address, billing_address, city, state_name, zip_code, payment_type
  FROM user_sign_in WHERE email = ?");
 $stmt->bind_param("s", $userEmail);
@@ -20,7 +21,6 @@ $stmt->execute();
 $stmt->bind_result($userName, $contactNumber, $deliveryAddress, $billingAddress, $city, $stateName, $zipCode, $paymentType);
 $stmt->fetch();
 $stmt->close();
-ob_end_flush();
 ?>
 
 

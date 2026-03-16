@@ -345,7 +345,20 @@ class Security {
         }
 
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            return ['valid' => false, 'error' => 'Upload failed. Please try again.'];
+            $errorMap = [
+                UPLOAD_ERR_INI_SIZE => 'Upload failed: file exceeds server upload_max_filesize limit.',
+                UPLOAD_ERR_FORM_SIZE => 'Upload failed: file exceeds MAX_FILE_SIZE from form.',
+                UPLOAD_ERR_PARTIAL => 'Upload failed: file was only partially uploaded.',
+                UPLOAD_ERR_NO_FILE => 'No file uploaded or selected.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Upload failed: missing temporary upload directory on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Upload failed: server could not write file to disk.',
+                UPLOAD_ERR_EXTENSION => 'Upload failed: blocked by a PHP extension.'
+            ];
+
+            return [
+                'valid' => false,
+                'error' => $errorMap[$file['error']] ?? ('Upload failed with error code: ' . $file['error'])
+            ];
         }
 
         if (!is_uploaded_file($file['tmp_name'])) {
@@ -390,6 +403,10 @@ class Security {
 
         if (!is_dir($uploadDir) && !mkdir($uploadDir, 0755, true) && !is_dir($uploadDir)) {
             return ['success' => false, 'error' => 'Failed to create upload directory.'];
+        }
+
+        if (!is_writable($uploadDir)) {
+            return ['success' => false, 'error' => 'Upload directory is not writable by server.'];
         }
 
         $baseName = pathinfo($file['name'], PATHINFO_FILENAME);

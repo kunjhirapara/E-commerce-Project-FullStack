@@ -9,6 +9,7 @@ include 'main-header.php';
 
 $password = $confirmPassword = $passwordErr = $confirmPasswordErr = $successMsg = $tokenErr = "";
 $validToken = false;
+$redirectAfterReset = false;
 
 // Check if token is provided
 if (isset($_GET['token'])) {
@@ -51,13 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $validToken) {
         
         if ($stmt->execute()) {
             $successMsg = "Password successfully reset! Redirecting to sign in...";
+          $redirectAfterReset = true;
             
             // Clear reset token
             unset($_SESSION['demo_reset_token']);
             unset($_SESSION['demo_reset_email']);
-            
-            // Redirect after 3 seconds
-            header("refresh:3;url=signin.php");
         } else {
             $passwordErr = "Error resetting password. Please try again.";
         }
@@ -290,6 +289,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $validToken) {
       <i class="fa-solid fa-check-circle"></i>
       <div><?php echo $successMsg; ?></div>
     </div>
+    <?php if ($redirectAfterReset): ?>
+    <script>
+      setTimeout(function() {
+        window.location.href = "signin.php";
+      }, 3000);
+    </script>
+    <?php endif; ?>
     <?php else: ?>
     <div class="auth-body">
       <form method="post"

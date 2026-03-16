@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/security.php';
+require_once __DIR__ . '/config.php';
 Security::init_secure_session('USER_SESSION');
-include 'main-header.php';
 
 $userName = 'User';
 $userImage = '';
@@ -45,6 +45,8 @@ if (!empty($userEmail)) {
 $profileImageUrl = !empty($userImage)
   ? $Base_Url . '/assets/images/user-sign-up-uploads/' . $userImage
   : $Base_Url . '/assets/images/icons/vite.svg';
+
+include 'main-header.php';
 ?>
 <header class="section-navbar">
   <section class="top_txt">

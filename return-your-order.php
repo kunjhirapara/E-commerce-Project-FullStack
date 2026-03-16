@@ -1,7 +1,6 @@
 <?php 
-ob_start();
-include './header.php' ?>
-<?php
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
 include './conn.php'; 
 
 if (!isset($_SESSION['email'])) {
@@ -14,6 +13,7 @@ if (isset($_SESSION['last_signin_time']) && (time() - $_SESSION['last_signin_tim
 }
 
 $_SESSION['last_signin_time'] = time();
+include './header.php';
 $userEmail = $_SESSION['email'];
 
 $stmt = $conn->prepare("SELECT username, user_img FROM user_sign_in WHERE email = ?");
@@ -31,7 +31,6 @@ $stmt2->bind_result($deliveryAddress, $billing_address, $customerName );
 $stmt2->fetch();
 $stmt2->close();
 $conn->close();
-ob_flush();
 ?>
 <script type="module" src="./assets/js/cartValue.js"></script>
 

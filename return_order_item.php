@@ -1,7 +1,6 @@
 <?php 
-ob_start();
-include './header.php' ?>
-<?php
+require_once __DIR__ . '/includes/security.php';
+Security::init_secure_session('USER_SESSION');
 include './conn.php'; 
 
 if (!isset($_SESSION['email'])) {
@@ -14,6 +13,7 @@ if (isset($_SESSION['last_signin_time']) && (time() - $_SESSION['last_signin_tim
 }
 
 $_SESSION['last_signin_time'] = time();
+include './header.php';
 $userEmail = $_SESSION['email'];
 
 $stmt = $conn->prepare("SELECT id, username, user_img FROM user_sign_in WHERE email = ?");
@@ -33,7 +33,6 @@ $stmt2->close();
 $conn->close();
 $orderId = base64_decode($_GET['orderId']);
 $itemId = json_decode(base64_decode($_GET['itemId']), true);
-ob_flush();
 ?>
 
 

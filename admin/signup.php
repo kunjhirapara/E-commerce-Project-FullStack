@@ -1,6 +1,7 @@
 <?php
 // Include security helper
 require_once '../includes/security.php';
+require_once __DIR__ . '/../config.php';
 
 // Initialize secure session for admin
 Security::init_secure_session('ADMIN_SESSION');
@@ -14,9 +15,6 @@ if (isset($_SESSION['admin_email']) && isset($_SESSION['admin_logged_in'])) {
         exit();
     }
 }
-
-include 'main-header.php' ?>
-<?php
 
 $email = $password = $userName = $Upload = $emailErr = $passwordErr = $userNameErr = $UploadErr = "";
 
@@ -118,6 +116,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $conn->close();
 }
+
+include 'main-header.php';
 ?>
 
 
