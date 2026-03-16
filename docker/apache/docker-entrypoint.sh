@@ -52,9 +52,16 @@ cat > /etc/apache2/sites-available/000-default.conf <<EOF
         Options FollowSymLinks
         AllowOverride All
         Require all granted
+        DirectorySlash Off
     </Directory>
 
 ${ROUTE_RULES}
+
+    # Handle trailing-slash redirects via mod_rewrite instead of DirectorySlash
+    # so the redirect uses the client-facing URL, not the backend address.
+    RewriteEngine On
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+    RewriteRule ^(.*[^/])$ %{REQUEST_URI}/ [R=301,L]
 
     <LocationMatch "^/\\.">
         Require all denied
