@@ -1,1 +1,35 @@
+# Dependencies
+node_modules/
 node-modules/
+vendor/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+error.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp files
+*.tmp
+*.bak
+
+# Uploads (runtime data, not source)
+assets/images/uploads/*
+assets/images/user-sign-up-uploads/*
+admin/assets/images/admin-sign-up-uploads/*
+!assets/images/uploads/.gitkeep
+!assets/images/user-sign-up-uploads/.gitkeep
+!admin/assets/images/admin-sign-up-uploads/.gitkeep
