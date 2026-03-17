@@ -14,33 +14,8 @@ for dir in $UPLOAD_DIRS; do
     chmod -R 775 "$dir"
 done
 
-APP_BASE_PATH="${APP_BASE_PATH:-}"
-APP_BASE_PATH="$(printf '%s' "$APP_BASE_PATH" | sed 's#/*$##')"
-
-# If APP_BASE_PATH is not explicitly set, infer it from BASE_URL.
-# Example: BASE_URL=https://host/projects/Ecommerce -> /projects/Ecommerce
-if [ -z "$APP_BASE_PATH" ] && [ -n "${BASE_URL:-}" ]; then
-    inferred_path="$(printf '%s' "$BASE_URL" | sed -E 's#^[a-zA-Z]+://[^/]+##' | sed 's#/*$##')"
-    if [ -n "$inferred_path" ] && [ "$inferred_path" != "${BASE_URL}" ]; then
-        APP_BASE_PATH="$inferred_path"
-    fi
-fi
-
-if [ -n "$APP_BASE_PATH" ] && [ "${APP_BASE_PATH#/}" = "$APP_BASE_PATH" ]; then
-    APP_BASE_PATH="/$APP_BASE_PATH"
-fi
-
-ROUTE_RULES='    RewriteEngine On
-    RewriteRule ^admin/?$ /admin/signin.php [R=302,L]'
-
-if [ -n "$APP_BASE_PATH" ]; then
-    BASE_PATTERN="${APP_BASE_PATH#/}"
-    ROUTE_RULES="    RewriteEngine On
-    RewriteRule ^${BASE_PATTERN}/admin/?$ ${APP_BASE_PATH}/admin/signin.php [R=302,L]
-    RewriteRule ^${BASE_PATTERN}/?$ / [PT,L]
-    RewriteRule ^${BASE_PATTERN}/(.*)$ /\$1 [PT,L]
-    RewriteRule ^admin/?$ ${APP_BASE_PATH}/admin/signin.php [R=302,L]"
-fi
+# Subdomain deployment: the app sits at the document root, so no path-prefix
+# stripping is needed (previously used APP_BASE_PATH for /projects/Ecommerce).
 
 cat > /etc/apache2/sites-available/000-default.conf <<EOF
 <VirtualHost *:80>
@@ -52,16 +27,10 @@ cat > /etc/apache2/sites-available/000-default.conf <<EOF
         Options FollowSymLinks
         AllowOverride All
         Require all granted
-        DirectorySlash Off
     </Directory>
 
-${ROUTE_RULES}
-
-    # Handle trailing-slash redirects via mod_rewrite instead of DirectorySlash
-    # so the redirect uses the client-facing URL, not the backend address.
     RewriteEngine On
-    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
-    RewriteRule ^(.*[^/])$ %{REQUEST_URI}/ [R=301,L]
+    RewriteRule ^/admin/?$ /admin/signin.php [R=302,L]
 
     <LocationMatch "^/\\.">
         Require all denied

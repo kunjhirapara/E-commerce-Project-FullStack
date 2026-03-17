@@ -10,7 +10,7 @@ Experience the live application:
 
 ### 👤 **Regular User Demo**
 
-**[Launch Customer Store →](https://projectstore.kunjdeveloper.me)**
+**[Launch Customer Store →](https://ecommerce.kunjdeveloper.me)**
 
 > **Demo Credentials:**
 >
@@ -19,7 +19,7 @@ Experience the live application:
 
 ### 🔐 **Admin Panel Demo**
 
-**[Launch Admin Dashboard →](https://projectstore.kunjdeveloper.me/admin)**
+**[Launch Admin Dashboard →](https://ecommerce.kunjdeveloper.me/admin)**
 
 > **Admin Credentials:**
 >
@@ -297,17 +297,14 @@ This e-commerce platform implements enterprise-grade security practices to prote
    ```
 
 2. **Import database**:
-
    - Open phpMyAdmin (`http://localhost/phpmyadmin`)
    - Create a new database (e.g., `kunj_ecommerce`)
    - Import the SQL file included in the project
 
 3. **Configure database connection**:
-
    - Edit `config.php` if needed (auto-detects localhost)
 
 4. **Access the site**:
-
    - Customer Store: `http://localhost/E-commerce-Project-FullStack/`
    - Admin Panel: `http://localhost/E-commerce-Project-FullStack/admin/`
 
@@ -537,23 +534,19 @@ Customers can:
 ## 🔐 Security Best Practices
 
 1. **SQL Injection Prevention**
-
    - All database queries use prepared statements
    - Parameter binding for user inputs
 
 2. **XSS Protection**
-
    - Output escaping with `htmlspecialchars()`
    - Content Security Policy headers
 
 3. **Session Security**
-
    - Secure session configuration
    - Session timeout (auto-logout)
    - Session ID regeneration
 
 4. **Password Security**
-
    - Passwords hashed with strong algorithms
    - Password strength requirements
 
@@ -602,21 +595,18 @@ Customers can:
    ```
 
 3. **Create database**
-
    - Open phpMyAdmin: `http://localhost/phpmyadmin`
    - Click "New" to create database
    - Name it `kunj_ecommerce`
    - Set collation to `utf8mb4_general_ci`
 
 4. **Import database**
-
    - Select the `kunj_ecommerce` database
    - Click "Import" tab
    - Choose the SQL file from project
    - Click "Go" to import
 
 5. **Configure connection** (optional for localhost)
-
    - Open `config.php`
    - Verify these settings:
 
@@ -628,13 +618,11 @@ Customers can:
    ```
 
 6. **Start Apache and MySQL**
-
    - Open XAMPP Control Panel
    - Start Apache
    - Start MySQL
 
 7. **Access the website**
-
    - Customer: `http://localhost/E-commerce-Project-FullStack/`
    - Admin: `http://localhost/E-commerce-Project-FullStack/admin/`
 
@@ -647,19 +635,16 @@ Customers can:
 ### **For Customers**
 
 1. **Browse Products**
-
    - Visit homepage or products page
    - Use filters to narrow down choices
    - Click on product for details
 
 2. **Add to Cart/Wishlist**
-
    - Select quantity
    - Click "Add to Cart" or heart icon
    - View cart icon for item count
 
 3. **Checkout**
-
    - Click cart icon
    - Review items
    - Proceed to checkout
@@ -668,7 +653,6 @@ Customers can:
    - Place order
 
 4. **Compare Products**
-
    - Browse products
    - Click the compare icon (code-compare) on product cards
    - Add up to 4 products from the same category
@@ -679,13 +663,11 @@ Customers can:
    - Close comparison panel when done
 
 5. **Track Orders**
-
    - Go to "My Orders"
    - Click order to view details
    - Track shipment status
 
 6. **Return Items**
-
    - Go to "My Orders"
    - Click "Return Order"
    - Select items and reason
@@ -694,20 +676,17 @@ Customers can:
 ### **For Admins**
 
 1. **Login to Admin Panel**
-
    - Visit `/admin/`
    - Enter admin credentials
    - Access dashboard
 
 2. **Manage Products**
-
    - Click "Products" in sidebar
    - Add new products with form
    - Edit/delete existing products
    - Toggle product status
 
 3. **Process Orders**
-
    - Click "Order Listing"
    - View all orders
    - Update order status
@@ -715,7 +694,6 @@ Customers can:
    - Manage order items
 
 4. **Create Coupons**
-
    - Click "Coupons"
    - Add coupon code and details
    - Set discount and validity
@@ -776,7 +754,7 @@ This project is open-source and available for educational purposes.
 **Kunj Developer**
 
 - Portfolio Website: [kunjdeveloper.me](https://kunjdeveloper.me)
-- Live Demo: [projectstore.kunjdeveloper.me](https://projectstore.kunjdeveloper.me)
+- Live Demo: [ecommerce.kunjdeveloper.me](https://ecommerce.kunjdeveloper.me)
 
 ---
 

@@ -19,41 +19,46 @@ $port = $_SERVER['SERVER_PORT'] ?? null;
 $includePort = $port !== null && (($protocol === 'https://' && (int) $port !== 443) || ($protocol === 'http://' && (int) $port !== 80));
 $hostWithPort = $serverName . ($includePort ? ':' . $port : '');
 
-// Determine project web path (e.g. /projects/Ecommerce) using DOCUMENT_ROOT + __DIR__.
-// Fallback to SCRIPT_NAME when document root mapping is unavailable.
+// Determine project web path.
+// For subdomain deployments (e.g. ecommerce.kunjdeveloper.me) the app sits at
+// the root, so $projectPath is empty.  For local dev (localhost) the path is
+// inferred from the filesystem so that /E-commerce-Project-FullStack still works.
 $projectPath = '';
-$documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
-if (!empty($documentRoot)) {
-    $docRootReal = realpath($documentRoot);
-    $projectReal = realpath(__DIR__);
 
-    if ($docRootReal !== false && $projectReal !== false) {
-        $docRootNorm = str_replace('\\', '/', $docRootReal);
-        $projectNorm = str_replace('\\', '/', $projectReal);
+if ($isLocalhost) {
+    $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
+    if (!empty($documentRoot)) {
+        $docRootReal = realpath($documentRoot);
+        $projectReal = realpath(__DIR__);
 
-        if (strpos($projectNorm, $docRootNorm) === 0) {
-            $relative = substr($projectNorm, strlen($docRootNorm));
-            $projectPath = '/' . ltrim(trim(str_replace('\\', '/', $relative)), '/');
-            if ($projectPath === '/') {
-                $projectPath = '';
+        if ($docRootReal !== false && $projectReal !== false) {
+            $docRootNorm = str_replace('\\', '/', $docRootReal);
+            $projectNorm = str_replace('\\', '/', $projectReal);
+
+            if (strpos($projectNorm, $docRootNorm) === 0) {
+                $relative = substr($projectNorm, strlen($docRootNorm));
+                $projectPath = '/' . ltrim(trim(str_replace('\\', '/', $relative)), '/');
+                if ($projectPath === '/') {
+                    $projectPath = '';
+                }
             }
         }
     }
-}
 
-if ($projectPath === '' && isset($_SERVER['SCRIPT_NAME'])) {
-    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-    $scriptDir = rtrim($scriptDir, '/');
-    if ($scriptDir === '.') {
-        $scriptDir = '';
+    if ($projectPath === '' && isset($_SERVER['SCRIPT_NAME'])) {
+        $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+        $scriptDir = rtrim($scriptDir, '/');
+        if ($scriptDir === '.') {
+            $scriptDir = '';
+        }
+
+        // If running from /.../admin, base path should be its parent.
+        if (preg_match('#/admin$#', $scriptDir)) {
+            $scriptDir = preg_replace('#/admin$#', '', $scriptDir);
+        }
+
+        $projectPath = $scriptDir;
     }
-
-    // If running from /.../admin, base path should be its parent.
-    if (preg_match('#/admin$#', $scriptDir)) {
-        $scriptDir = preg_replace('#/admin$#', '', $scriptDir);
-    }
-
-    $projectPath = $scriptDir;
 }
 
 // Optional manual URL overrides for containerized deployments
@@ -75,9 +80,9 @@ if (!empty($envBaseUrl) || !empty($envAdminBaseUrl)) {
     $Base_Url = $protocol . $serverName . '/E-commerce-Project-FullStack';
     $Admin_Base_Url = $protocol . $serverName . '/E-commerce-Project-FullStack/admin';
 } else {
-    // Production / Docker environment
-    // Keep the deployment subdirectory if present (e.g. /projects/Ecommerce).
-    $Base_Url = $protocol . $hostWithPort . $projectPath;
+    // Production / Docker environment — subdomain deployment (e.g. ecommerce.kunjdeveloper.me).
+    // The app sits at the root of the subdomain, so no path prefix is needed.
+    $Base_Url = $protocol . $hostWithPort;
     $Admin_Base_Url = $Base_Url . '/admin';
 }
 
