@@ -231,43 +231,6 @@ $stmt->close();
     </div>
   </div>
 </section>
-<!-- Success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-success">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title" id="successModalLabel">Success!</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Coupon created successfully.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Failure Modal -->
-<div class="modal fade" id="failureModal" tabindex="-1" aria-labelledby="failureModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title" id="failureModalLabel">Error</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="failureModalBody">
-        Something went wrong.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <?php include '../main-footer.php' ?>
 <script type="module" src="./assets/js/script.js"></script>
 <script type="module" defer>
@@ -384,15 +347,11 @@ $(document).ready(function() {
               $("#applicable_category").val("");
             }
 
-            let successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
+            Toast.success("Coupon created successfully.");
           }
           if (response.error) {
-            Toast.error(response.error);
             $("#formError").text("Error: " + response.error);
-
-            let failureModal = new bootstrap.Modal(document.getElementById('failureModal'));
-            failureModal.show();
+            Toast.error(response.error);
           }
         },
         error: function(jqXHR) {
@@ -402,10 +361,7 @@ $(document).ready(function() {
             errorMsg = jqXHR.responseJSON.error;
           }
           $("#couponFormSubmit").prop("disabled", false);
-
-          $("#failureModalBody").text(errorMsg);
-          let failureModal = new bootstrap.Modal(document.getElementById('failureModal'));
-          failureModal.show();
+          Toast.error(errorMsg);
         },
       });
     }
