@@ -18,12 +18,16 @@ RUN printf '%s\n' \
 
 WORKDIR /var/www/html
 COPY . /var/www/html
+COPY docker/php/docker-entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
-    && find /var/www/html -type f -exec chmod 644 {} \;
+    && find /var/www/html -type f -exec chmod 644 {} \; \
+    && chmod +x /usr/local/bin/custom-entrypoint.sh
 
-USER www-data
+# Stay as root so the entrypoint can chown volume mount points.
+# php-fpm's worker pool drops to www-data via /usr/local/etc/php-fpm.d/www.conf.
 
 EXPOSE 9000
+ENTRYPOINT ["custom-entrypoint.sh"]
 CMD ["php-fpm"]
