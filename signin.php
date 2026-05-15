@@ -322,7 +322,7 @@ setTimeout(() => {
     <div class="auth-body">
       <form method="post" action="">
         <div class="form-floating-custom">
-          <input type="email" name="email" id="email" placeholder="Email..." default="hubo@mailinator.com" autocomplete="email" required>
+          <input type="email" name="email" id="email" placeholder="Email..." value="<?php echo htmlspecialchars($email ?: 'hubo@mailinator.com'); ?>" autocomplete="email" required>
           <label for="email">Email Address</label>
           <?php if($emailErr): ?>
           <span class="error"><?php echo $emailErr; ?></span>
@@ -330,7 +330,7 @@ setTimeout(() => {
         </div>
 
         <div class="form-floating-custom">
-          <input type="password" name="password" id="password" placeholder="Password..." default="1234" autocomplete="current-password" required>
+          <input type="password" name="password" id="password" placeholder="Password..." value="1234" autocomplete="current-password" required>
           <label for="password">Password</label>
           <?php if($passwordErr): ?>
           <span class="error"><?php echo $passwordErr; ?></span>
