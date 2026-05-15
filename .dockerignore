@@ -1,8 +1,31 @@
 .git
 .gitignore
-README.md
-DEPLOYMENT_CHECKLIST.md
-node_modules
-vendor
+.github
+.vscode
+.idea
+*.swp
+*.swo
 *.log
 *.tmp
+*.bak
+
+# Never bake secrets or local overrides into images
+.env
+.env.local
+.env.production
+
+# Local-only docs / generated dirs
+node_modules
+vendor
+
+# Runtime upload dirs are mounted as volumes; don't ship local contents
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+assets/images/user-sign-up-uploads/*
+!assets/images/user-sign-up-uploads/.gitkeep
+admin/assets/images/admin-sign-up-uploads/*
+!admin/assets/images/admin-sign-up-uploads/.gitkeep
+
+# Deployment docs don't need to live in the image
+DEPLOYMENT.md
+README.md

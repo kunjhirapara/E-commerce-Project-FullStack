@@ -1,60 +1,97 @@
-version: "3.8"
-
 services:
-  web:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
+    image: projectstore-app:latest
+    container_name: projectstore-app
     restart: unless-stopped
-    ports:
-      - "${APP_PORT:-8080}:80"
     environment:
-      BASE_URL: ${BASE_URL:-https://ecommerce.kunjdeveloper.me}
-      ADMIN_BASE_URL: ${ADMIN_BASE_URL:-https://ecommerce.kunjdeveloper.me/admin}
+      BASE_URL: ${BASE_URL}
+      ADMIN_BASE_URL: ${ADMIN_BASE_URL}
       DB_HOST: db
-      DB_USER: ${DB_USER:-ecommerce_user}
-      DB_PASSWORD: ${DB_PASSWORD:-change_me}
-      DB_NAME: ${DB_NAME:-kunj_ecommerce}
-    depends_on:
-      db:
-        condition: service_healthy
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     volumes:
       - uploads_data:/var/www/html/assets/images/uploads
       - user_uploads_data:/var/www/html/assets/images/user-sign-up-uploads
       - admin_uploads_data:/var/www/html/admin/assets/images/admin-sign-up-uploads
+    networks:
+      - internal
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    image: projectstore-web:latest
+    container_name: projectstore-web
+    restart: unless-stopped
+    volumes:
+      - uploads_data:/var/www/html/assets/images/uploads:ro
+      - user_uploads_data:/var/www/html/assets/images/user-sign-up-uploads:ro
+      - admin_uploads_data:/var/www/html/admin/assets/images/admin-sign-up-uploads:ro
+    networks:
+      - internal
+      - proxy
+    depends_on:
+      - app
 
   db:
     image: mysql:8.0
+    container_name: projectstore-db
     restart: unless-stopped
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - "${DB_PORT:-3307}:3306"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --bind-address=0.0.0.0
+      - --skip-name-resolve
+      - --max-connections=200
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_change_me}
-      MYSQL_DATABASE: ${DB_NAME:-kunj_ecommerce}
-      MYSQL_USER: ${DB_USER:-ecommerce_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-change_me}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
-      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - internal
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 30s
 
   phpmyadmin:
     image: phpmyadmin:latest
+    container_name: projectstore-pma
     restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
-      - "${PHPMYADMIN_PORT:-8091}:80"
+      # Bound to loopback only — reach it via SSH tunnel:
+      # ssh -L 8091:127.0.0.1:8091 user@server
+      - "127.0.0.1:8091:80"
     environment:
       PMA_HOST: db
+      PMA_ABSOLUTE_URI: http://localhost:8091/
+      UPLOAD_LIMIT: 64M
+    networks:
+      - internal
 
 volumes:
   db_data:
   uploads_data:
   user_uploads_data:
   admin_uploads_data:
+
+networks:
+  internal:
+    driver: bridge
+  proxy:
+    external: true
+    name: proxy
