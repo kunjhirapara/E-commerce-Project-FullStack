@@ -78,7 +78,7 @@ export const quantityChange = async (event, id, stock, price) => {
       success: function (data) {},
       error: function (xhr, status, error) {
         console.error("AJAX Error:", status, error);
-        alert("Failed to update cart. Please try again.");
+        Toast.error("Failed to update cart. Please try again.");
       },
     });
   }

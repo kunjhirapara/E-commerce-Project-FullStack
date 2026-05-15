@@ -332,7 +332,7 @@ let cartProductIds = [];
                   window.location.href = "order-confirmation.php";
                 })
                 .fail(() => {
-                  alert("Failed to send order info");
+                  Toast.error("Failed to send order info");
                 });
             }
             $submitBtn.prop("disabled", false);

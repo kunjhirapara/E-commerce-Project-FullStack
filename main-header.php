@@ -25,6 +25,7 @@ require_once __DIR__ . '/config.php';
   <script defer type="module" src="<?php echo $Base_Url; ?>/assets/js/jquery.js"></script>
   <script defer type="module" src="<?php echo $Base_Url; ?>/assets/js/jqueryValidate.js"></script>
   <script defer src="<?php echo $Base_Url; ?>/assets/js/owl.carousel.min.js"></script>
+  <script src="<?php echo $Base_Url; ?>/assets/js/toast.js"></script>
 
 
   <title>Ecomm website</title>

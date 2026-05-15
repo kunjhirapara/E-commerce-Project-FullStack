@@ -25,8 +25,8 @@ async function viewOrder() {
     const orderData = await orderResponse.json();
     const userData = await userResponse.json();
     if (userData == "") {
-      alert("No Data Found!!");
-      window.location.href = "orders-listing.php";
+      Toast.warning("No data found for this order.");
+      setTimeout(() => { window.location.href = "orders-listing.php"; }, 1200);
     }
     let subTotal = 0;
     for (const item of orderData) {

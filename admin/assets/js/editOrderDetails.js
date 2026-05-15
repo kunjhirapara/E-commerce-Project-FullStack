@@ -25,8 +25,8 @@ async function viewOrder() {
     const orderData = await orderResponse.json();
     const userData = await userResponse.json();
     if (userData == "") {
-      alert("No Data Found!!");
-      window.location.href = "orders-listing.php";
+      Toast.warning("No data found for this order.");
+      setTimeout(() => { window.location.href = "orders-listing.php"; }, 1200);
     }
     if (orderData.length === 0 || !orderData) {
       window.location.href = "orders-listing.php";
@@ -380,7 +380,7 @@ async function viewOrder() {
               },
             });
           } else {
-            alert(`Value must be bewtween 1 and ${stock}`);
+            Toast.warning(`Value must be between 1 and ${stock}.`);
           }
         });
     });

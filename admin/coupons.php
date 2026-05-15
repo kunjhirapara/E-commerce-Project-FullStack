@@ -388,7 +388,7 @@ $(document).ready(function() {
             successModal.show();
           }
           if (response.error) {
-            alert(response.error);
+            Toast.error(response.error);
             $("#formError").text("Error: " + response.error);
 
             let failureModal = new bootstrap.Modal(document.getElementById('failureModal'));

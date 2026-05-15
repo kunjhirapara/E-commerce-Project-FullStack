@@ -336,8 +336,9 @@ class Security {
     public static function validate_uploaded_image($file, $maxSize = 2097152) {
         $allowedMimeTypes = [
             'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-            'image/gif' => 'gif'
+            'image/png'  => 'png',
+            'image/gif'  => 'gif',
+            'image/webp' => 'webp',
         ];
 
         if (!is_array($file) || !isset($file['error'], $file['tmp_name'], $file['size'], $file['name'])) {

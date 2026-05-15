@@ -15,7 +15,7 @@ export function clearImage() {
 
 function handleFile(file) {
   if (!file.type.startsWith("image/")) {
-    alert("Please select a valid image file.");
+    Toast.error("Please select a valid image file.");
     return;
   }
 

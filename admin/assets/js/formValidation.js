@@ -162,7 +162,7 @@ $(document).ready(function () {
                 window.location.href = "order-confirmation.php";
               })
               .fail(function () {
-                alert("Failed to send order info");
+                Toast.error("Failed to send order info");
               });
           }
 

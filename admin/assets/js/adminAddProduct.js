@@ -151,13 +151,13 @@ $(document).ready(function () {
         dataType: "json",
         success: function (res) {
           if (res.success) {
-            alert("Product added successfully!");
+            Toast.success("Product added successfully!");
             form.reset();
             clearImage();
             $("#formError").hide();
             $("#closeModalBtn").click();
           } else {
-            alert(res.error || "An error occurred");
+            Toast.error(res.error || "An error occurred");
           }
           $("#submitProduct").prop("disabled", false).text("Add Product");
         },
@@ -169,7 +169,7 @@ $(document).ready(function () {
           } else if (textStatus) {
             errorMsg = textStatus + ": " + errorThrown;
           }
-          alert(errorMsg);
+          Toast.error(errorMsg);
           $("#submitProduct").prop("disabled", false).text("Add Product");
         },
       });

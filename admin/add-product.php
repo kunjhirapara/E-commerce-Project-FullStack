@@ -27,6 +27,35 @@ $stmt->close();
 <?php include 'main-header.php' ?>
 <div id="show-toast" class="toast-container bg-white position-fixed bottom-0 end-0" style="z-index: 1100;"></div>
 
+<script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("status");
+    if (!status) return;
+
+    const messages = {
+      deleted:    { type: "success", text: "Product deleted successfully." },
+      not_found:  { type: "warning", text: "Product not found or already deleted." },
+      invalid_id: { type: "error",   text: "Invalid product ID." },
+      db_error:   { type: "error",   text: "Database error. Please try again." },
+    };
+    const msg = messages[status];
+    if (!msg) return;
+
+    const showWhenReady = () => {
+      if (window.Toast) {
+        Toast[msg.type](msg.text);
+        params.delete("status");
+        const clean = window.location.pathname + (params.toString() ? "?" + params : "");
+        window.history.replaceState({}, "", clean);
+      } else {
+        setTimeout(showWhenReady, 50);
+      }
+    };
+    showWhenReady();
+  })();
+</script>
+
 <div
   class="d-flex justify-content-between justify-content-md-end position-fixed top-0 right-0 p-3 bg-white w-100 shadow-sm"
   style="z-index: 10;">
