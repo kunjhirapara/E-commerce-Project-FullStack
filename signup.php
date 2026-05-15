@@ -85,8 +85,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Use modern password hashing (bcrypt or Argon2)
         $hashed_password = Security::hash_password($password);
         $contactNumber = '';
-        $stmt = $conn->prepare("INSERT INTO user_sign_in(email, password, username, user_img, contact_number) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $email, $hashed_password, $userName, $Upload, $contactNumber);
+        $deliveryAddress = '';
+        $billingAddress = '';
+        $stmt = $conn->prepare("INSERT INTO user_sign_in(email, password, username, user_img, contact_number, delivery_address, billing_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $email, $hashed_password, $userName, $Upload, $contactNumber, $deliveryAddress, $billingAddress);
 
         if ($stmt->execute()) {
             $stmt->close();
