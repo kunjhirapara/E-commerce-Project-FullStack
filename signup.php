@@ -84,8 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if ($emailErr === "" && $passwordErr === "" && $userNameErr === "" && count($UploadErr) === 0) {
         // Use modern password hashing (bcrypt or Argon2)
         $hashed_password = Security::hash_password($password);
-        $stmt = $conn->prepare("INSERT INTO user_sign_in(email, password, username, user_img) VALUES (?, ?, ?,?)");
-        $stmt->bind_param("ssss", $email, $hashed_password, $userName, $Upload);
+        $contactNumber = '';
+        $stmt = $conn->prepare("INSERT INTO user_sign_in(email, password, username, user_img, contact_number) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $email, $hashed_password, $userName, $Upload, $contactNumber);
 
         if ($stmt->execute()) {
             $stmt->close();
