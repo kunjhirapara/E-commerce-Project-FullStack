@@ -10,7 +10,7 @@
   <div class="container">
     <h2 class="section-title-h2 text-center mb-3 fw-bold ">Our Mission & Values</h2>
     <p class="text-center fw-semibold text-secondary mb-5 fs-5 mx-auto" style="max-width: 700px;">
-      At Thapa Store, we are committed to delivering cutting-edge technology with integrity and passion. Our mission is
+      At GadgetHub, we are committed to delivering cutting-edge technology with integrity and passion. Our mission is
       to empower our customers by providing exceptional gadgets, unparalleled service, and a seamless shopping
       experience.
     </p>
@@ -56,8 +56,8 @@
   <div class="container ">
     <h2 class="section-title-h2 text-center">Why Choose Us</h2>
     <p class="fw-semibold text-gray text-center">
-      Choose Thapa EduHub for a holistic, enriching learning experience that
-      empowers you to achieve your goals.
+      Choose GadgetHub for genuine products, fair prices and support that
+      stays with you after checkout.
     </p>
     <div class="row">
       <div class="col-xxl-4 col-lg-12 col-md-6 col-12">
@@ -67,7 +67,7 @@
             <h3 class="section-title-h3">Wide Selection</h3>
           </div>
           <p class="">
-            Thapa Store offers a diverse range of gadgets, from smartphones
+            GadgetHub offers a diverse range of gadgets, from smartphones
             to smart home devices, ensuring you find what you need to
             elevate your lifestyle and meet your tech requirements.
           </p>
@@ -78,7 +78,7 @@
             <h3 class="section-title-h3">Quality Assurance</h3>
           </div>
           <p class="">
-            Every gadget at Thapa Store undergoes rigorous quality checks,
+            Every gadget at GadgetHub undergoes rigorous quality checks,
             guaranteeing reliability and performance, so you can shop with
             confidence knowing you're getting the best.
           </p>
@@ -89,7 +89,7 @@
             <h3 class="section-title-h3">Competitive Prices</h3>
           </div>
           <p class="">
-            Enjoy great value with Thapa Store's competitive prices on
+            Enjoy great value with GadgetHub's competitive prices on
             high-quality gadgets, making top-of-the-line technology
             accessible to all without compromising on quality or
             performance.
@@ -108,7 +108,7 @@
             <h3 class="section-title-h3">Wide Selection</h3>
           </div>
           <p class="">
-            Thapa Store offers a diverse range of gadgets, from smartphones
+            GadgetHub offers a diverse range of gadgets, from smartphones
             to smart home devices, ensuring you find what you need to
             elevate your lifestyle and meet your tech requirements.
           </p>
@@ -119,7 +119,7 @@
             <h3 class="section-title-h3">Quality Assurance</h3>
           </div>
           <p class="">
-            Every gadget at Thapa Store undergoes rigorous quality checks,
+            Every gadget at GadgetHub undergoes rigorous quality checks,
             guaranteeing reliability and performance, so you can shop with
             confidence knowing you're getting the best.
           </p>
@@ -130,7 +130,7 @@
             <h3 class="section-title-h3">Competitive Prices</h3>
           </div>
           <p class="">
-            Enjoy great value with Thapa Store's competitive prices on
+            Enjoy great value with GadgetHub's competitive prices on
             high-quality gadgets, making top-of-the-line technology
             accessible to all without compromising on quality or
             performance.
@@ -201,9 +201,9 @@
     <div class="row justify-content-center">
       <div class="col-md-4 col-sm-6 mb-4 text-center">
         <div class="p-3 shadow h-100">
-          <img src="<?php echo $Base_Url; ?>/assets/images/resources/default_user_img.png" alt="Rahul Thapa"
+          <img src="<?php echo $Base_Url; ?>/assets/images/resources/default_user_img.png" alt="Rahul Mehta"
             class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
-          <h5>Rahul Thapa</h5>
+          <h5>Rahul Mehta</h5>
           <p class="text-muted">Founder & CEO</p>
         </div>
       </div>

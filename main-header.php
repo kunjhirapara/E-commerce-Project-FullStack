@@ -28,7 +28,8 @@ require_once __DIR__ . '/config.php';
   <script src="<?php echo $Base_Url; ?>/assets/js/toast.js"></script>
 
 
-  <title>Ecomm website</title>
+  <meta name="robots" content="noindex, follow" />
+  <title>GadgetHub | E-commerce demo by Kunj Hirapara</title>
 </head>
 
 <?php // Database connection is already included via config.php ?>
