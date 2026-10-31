@@ -42,7 +42,7 @@
         </div>
         <div class="footer-copy">
           <div class="copy-txt">
-            <p>Design by Thapa Technical and Developed by Kunj Hirapra</p>
+            <p>Storefront layout based on a Thapa Technical tutorial. Backend, admin panel, coupons, returns and deployment by <a href="https://kunjdeveloper.com/projects/ecommerce-practice">Kunj Hirapara</a>.</p>
           </div>
         </div>
       </div>

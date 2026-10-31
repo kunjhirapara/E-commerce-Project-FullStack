@@ -21,7 +21,7 @@ include 'header.php';
               Your Destination for Cutting-Edge Gadgets!
             </h1>
             <p class="text-white">
-              Welcome to Thapa eComStore, your ultimate destination for
+              Welcome to GadgetHub, your ultimate destination for
               cutting-edge gadgets! Explore the latest in tech innovation and
               style with us. Shop now and discover a world of possibilities!
             </p>
@@ -57,8 +57,8 @@ include 'header.php';
   <div class="container ">
     <h2 class="section-title-h2 text-center mt-3">Why Choose Us</h2>
     <p class="fw-semibold text-gray text-center mb-5">
-      Choose Thapa EduHub for a holistic, enriching learning experience that
-      empowers you to achieve your goals.
+      Choose GadgetHub for genuine products, fair prices and support that
+      stays with you after checkout.
     </p>
     <div class="row">
       <div class="col-xxl-4 col-lg-12 col-md-6 col-12">
@@ -68,7 +68,7 @@ include 'header.php';
             <h3 class="section-title-h3">Wide Selection</h3>
           </div>
           <p class="">
-            Thapa Store offers a diverse range of gadgets, from smartphones
+            GadgetHub offers a diverse range of gadgets, from smartphones
             to smart home devices, ensuring you find what you need to
             elevate your lifestyle and meet your tech requirements.
           </p>
@@ -79,7 +79,7 @@ include 'header.php';
             <h3 class="section-title-h3">Quality Assurance</h3>
           </div>
           <p class="">
-            Every gadget at Thapa Store undergoes rigorous quality checks,
+            Every gadget at GadgetHub undergoes rigorous quality checks,
             guaranteeing reliability and performance, so you can shop with
             confidence knowing you're getting the best.
           </p>
@@ -90,7 +90,7 @@ include 'header.php';
             <h3 class="section-title-h3">Competitive Prices</h3>
           </div>
           <p class="">
-            Enjoy great value with Thapa Store's competitive prices on
+            Enjoy great value with GadgetHub's competitive prices on
             high-quality gadgets, making top-of-the-line technology
             accessible to all without compromising on quality or
             performance.
@@ -109,7 +109,7 @@ include 'header.php';
             <h3 class="section-title-h3">Wide Selection</h3>
           </div>
           <p class="">
-            Thapa Store offers a diverse range of gadgets, from smartphones
+            GadgetHub offers a diverse range of gadgets, from smartphones
             to smart home devices, ensuring you find what you need to
             elevate your lifestyle and meet your tech requirements.
           </p>
@@ -120,7 +120,7 @@ include 'header.php';
             <h3 class="section-title-h3">Quality Assurance</h3>
           </div>
           <p class="">
-            Every gadget at Thapa Store undergoes rigorous quality checks,
+            Every gadget at GadgetHub undergoes rigorous quality checks,
             guaranteeing reliability and performance, so you can shop with
             confidence knowing you're getting the best.
           </p>
@@ -131,7 +131,7 @@ include 'header.php';
             <h3 class="section-title-h3">Competitive Prices</h3>
           </div>
           <p class="">
-            Enjoy great value with Thapa Store's competitive prices on
+            Enjoy great value with GadgetHub's competitive prices on
             high-quality gadgets, making top-of-the-line technology
             accessible to all without compromising on quality or
             performance.
